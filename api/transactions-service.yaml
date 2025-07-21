@@ -188,12 +188,16 @@ environments:
       meta:
         id: env_1d98192f26d647cf9d2b36e10900b25a
         created: 1745657587051
-        modified: 1745657587051
+        modified: 1753090122706
         isPrivate: false
         sortKey: 1745657587051
       data:
         scheme: http
         host: localhost:8082
+        api_key: "{% vault 'hashicorp', 'cloudCred_fd78234d3d55492aa260ecc52b6bfe02',
+          'eyJzZWNyZXROYW1lIjoidHJhbnNhY3Rpb25zLWFwaS9hcGkta2V5Iiwia3ZWZXJzaW9u\
+          IjoidjIiLCJzZWNyZXRFbmdpbmVQYXRoIjoic2VjcmV0Iiwic2VjcmV0S2V5IjoidmFsd\
+          WUifQ==' %}"
 spec:
   contents:
     openapi: 3.0.3
