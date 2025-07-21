@@ -1,0 +1,511 @@
+type: spec.insomnia.rest/5.0
+name: transactions-desing-doc
+meta:
+  id: wrk_21458055d86846fe8f9ffff5e75fa3a8
+  created: 1745240709984
+  modified: 1745240709984
+collection:
+  - name: transactions
+    meta:
+      id: fld_1673e7784fc54a3d96b15b74357be919
+      created: 1745657587055
+      modified: 1745657587055
+      sortKey: -1745657587055
+      description: Operations related to retrieving and creating financial transactions
+    children:
+      - url: "{{ _.base_url }}/accounts/{{ _.accountId }}/transactions"
+        name: Retrieve account transactions
+        meta:
+          id: req_e8c3156c20714bc187b2501edb3ee200
+          created: 1745657587065
+          modified: 1745657587065
+          isPrivate: false
+          description: Returns a list of all transactions recorded for the specified
+            account.
+          sortKey: -1745657587065
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/accounts/{{ _.accountId }}/transactions"
+        name: Create new transaction credit
+        meta:
+          id: req_5cdba6e016614cdf9d5d29e60191e3b2
+          created: 1745657587067
+          modified: 1745657639597
+          isPrivate: false
+          description: Records a new transaction (debit or credit) for the specified
+            account. Validates the transaction and updates the account balance.
+          sortKey: -1745657587067
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "amount": 50,
+              "description": "ATM Withdrawal",
+              "transaction_type": "credit"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/accounts/{{ _.accountId }}/transactions"
+        name: Create new transaction debit
+        meta:
+          id: req_24fc488dc11a456fa0c158097ab71622
+          created: 1745657625292
+          modified: 1745657625292
+          isPrivate: false
+          description: Records a new transaction (debit or credit) for the specified
+            account. Validates the transaction and updates the account balance.
+          sortKey: -1745657587066
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "amount": 50,
+              "description": "ATM Withdrawal",
+              "transaction_type": "debit"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: health
+    meta:
+      id: fld_5201d24b54f64c9982a9540db8a5eb76
+      created: 1745657587057
+      modified: 1745657587057
+      sortKey: -1745657587057
+      description: Health check endpoints for monitoring service status
+    children:
+      - url: "{{ _.base_url }}/health"
+        name: Check service health
+        meta:
+          id: req_15a8db25cbd7442d8e1fa2d5459ad0e3
+          created: 1745657587060
+          modified: 1745657587060
+          isPrivate: false
+          description: Returns the health status of the service and its dependencies
+          sortKey: -1745657587060
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/health"
+        name: Check service health (HEAD)
+        meta:
+          id: req_54d716322bd8402c8d706ad05827f179
+          created: 1745657587063
+          modified: 1745657587063
+          isPrivate: false
+          description: Returns the health status without response body
+          sortKey: -1745657587063
+        method: HEAD
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_1f0818fb1e6b0f1f33bd5334450732194f6fcea0
+    created: 1745240709997
+    modified: 1745262338750
+environments:
+  name: Base Environment
+  meta:
+    id: env_1f0818fb1e6b0f1f33bd5334450732194f6fcea0
+    created: 1745240709995
+    modified: 1745657586945
+    isPrivate: false
+  data:
+    base_url: "{{ _.scheme }}://{{ _.host }}"
+  subEnvironments:
+    - name: OpenAPI env transations.kong-bank.com
+      meta:
+        id: env_cff75b4a286847e8b5e37fa5115a26d6
+        created: 1745657587034
+        modified: 1745657587034
+        isPrivate: false
+        sortKey: 1745657587034
+      data:
+        scheme: https
+        host: transations.kong-bank.com
+    - name: OpenAPI env localhost:8082
+      meta:
+        id: env_1d98192f26d647cf9d2b36e10900b25a
+        created: 1745657587051
+        modified: 1745657587051
+        isPrivate: false
+        sortKey: 1745657587051
+      data:
+        scheme: http
+        host: localhost:8082
+spec:
+  contents:
+    openapi: 3.0.3
+    info:
+      title: Transactions API
+      description: This API manages the recording and retrieval of account transactions.
+      version: 1.0.0
+      contact:
+        email: stephen.brown@konghq.com
+    servers:
+      - url: https://transations.kong-bank.com
+        description: Production server
+      - url: http://localhost:8082
+        description: Local development server
+    tags:
+      - name: transactions
+        description: Operations related to retrieving and creating financial transactions
+      - name: health
+        description: Health check endpoints for monitoring service status
+    paths:
+      /health:
+        get:
+          tags:
+            - health
+          operationId: healthCheck
+          summary: Check service health
+          description: Returns the health status of the service and its dependencies
+          responses:
+            "200":
+              description: Service is healthy
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/HealthResponse"
+                  examples:
+                    all_healthy:
+                      summary: All services are healthy
+                      value:
+                        status: UP
+                        account_service: UP
+                        message: All services operational
+            "503":
+              description: One or more dependent services are unhealthy
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/HealthResponse"
+                  examples:
+                    account_service_down:
+                      summary: Account service is down
+                      value:
+                        status: UP
+                        account_service: DOWN
+                        message: Account service not available
+        head:
+          tags:
+            - health
+          operationId: healthCheckHead
+          summary: Check service health (HEAD)
+          description: Returns the health status without response body
+          responses:
+            "200":
+              description: Service is healthy
+            "503":
+              description: One or more dependent services are unhealthy
+      "/accounts/{accountId}/transactions":
+        get:
+          tags:
+            - transactions
+          operationId: getTransactionsForAccount
+          summary: Retrieve account transactions
+          description: Returns a list of all transactions recorded for the specified
+            account.
+          parameters:
+            - name: accountId
+              in: path
+              required: true
+              description: The UUID of the account to retrieve transactions for
+              schema:
+                type: string
+                format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+          responses:
+            "200":
+              description: Successfully retrieved transactions list
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Transaction"
+                  examples:
+                    multiple_transactions:
+                      summary: Account with multiple transactions
+                      value:
+                        - transaction_id: tx-9876543210
+                          date: 2024-01-15T14:30:00Z
+                          amount: -50
+                          description: ATM Withdrawal
+                          transaction_type: debit
+                        - transaction_id: tx-9876543211
+                          date: 2024-01-16T09:15:00Z
+                          amount: 2500
+                          description: Salary Deposit
+                          transaction_type: credit
+            "404":
+              description: No transactions found - account does not exist
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+                  examples:
+                    account_not_found:
+                      summary: Account not found error
+                      value:
+                        error_code: NOT_FOUND
+                        message: Account 123e4567-e89b-12d3-a456-426614174000 Not Found
+            "500":
+              description: Internal server error occurred while retrieving transactions
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+                  examples:
+                    internal_error:
+                      summary: Internal server error
+                      value:
+                        error_code: INTERNAL_ERROR
+                        message: Lock Error failed to acquire lock
+        post:
+          tags:
+            - transactions
+          operationId: createTransactionForAccount
+          summary: Create new transaction
+          description: Records a new transaction (debit or credit) for the specified
+            account. Validates the transaction and updates the account balance.
+          parameters:
+            - name: accountId
+              in: path
+              required: true
+              description: The UUID of the account to create the transaction for
+              schema:
+                type: string
+                format: uuid
+              example: 123e4567-e89b-12d3-a456-426614174000
+          requestBody:
+            description: Transaction details including amount, type, and description
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/TransactionRequest"
+                examples:
+                  debit_transaction:
+                    summary: Debit transaction example
+                    value:
+                      amount: 50
+                      description: ATM Withdrawal
+                      transaction_type: debit
+                  credit_transaction:
+                    summary: Credit transaction example
+                    value:
+                      amount: 2500
+                      description: Salary Deposit
+                      transaction_type: credit
+          responses:
+            "201":
+              description: Transaction created successfully
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Transaction"
+                  examples:
+                    successful_transaction:
+                      summary: Successfully created transaction
+                      value:
+                        transaction_id: tx-9876543210
+                        date: 2024-01-15T14:30:00Z
+                        amount: 50
+                        description: ATM Withdrawal
+                        transaction_type: debit
+            "400":
+              description: Invalid transaction request
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+                  examples:
+                    bad_transaction:
+                      summary: Invalid transaction parameters
+                      value:
+                        error_code: BAD_REQUEST
+                        message: Bad Transaction Amount must not have more than 2 decimal places
+                    insufficient_funds:
+                      summary: Insufficient funds for debit
+                      value:
+                        error_code: INSUFFICIENT_FUNDS
+                        message: "Insufficient Funds: Account balance too low for requested debit"
+            "404":
+              description: Failed to create transaction - account not found
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+                  examples:
+                    account_not_found:
+                      summary: Account not found
+                      value:
+                        error_code: NOT_FOUND
+                        message: Account Not Found Account does not exist
+            "500":
+              description: Internal error while processing transaction
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+                  examples:
+                    account_service_error:
+                      summary: Account service communication error
+                      value:
+                        error_code: INTERNAL_ERROR
+                        message: Account Service Error Failed to communicate with account service
+    components:
+      schemas:
+        Transaction:
+          type: object
+          description: Represents a financial transaction with its details including type,
+            amount, and metadata
+          example:
+            transaction_id: tx-9876543210
+            date: 2024-01-15T14:30:00Z
+            amount: -50
+            description: ATM Withdrawal
+            transaction_type: debit
+          properties:
+            transaction_id:
+              type: string
+              description: Unique identifier for the transaction (UUID v4)
+              example: tx-9876543210
+            date:
+              type: string
+              format: date-time
+              description: The timestamp when the transaction was created
+              example: 2024-01-15T14:30:00Z
+            amount:
+              type: number
+              format: double
+              description: The transaction amount (negative for debits, positive for credits)
+              example: -50
+            description:
+              type: string
+              description: A brief description or memo for the transaction
+              example: ATM Withdrawal
+            transaction_type:
+              type: string
+              enum:
+                - debit
+                - credit
+              description: Indicates whether the transaction is a debit or credit
+              example: debit
+        TransactionRequest:
+          type: object
+          description: Request payload for creating a new transaction
+          example:
+            amount: 50
+            description: ATM Withdrawal
+            transaction_type: debit
+          required:
+            - amount
+            - description
+            - transaction_type
+          properties:
+            amount:
+              type: number
+              format: double
+              description: The transaction amount (must be positive, type determines
+                credit/debit)
+              example: 50
+            description:
+              type: string
+              description: A brief description or memo for the transaction
+              example: ATM Withdrawal
+            transaction_type:
+              type: string
+              enum:
+                - debit
+                - credit
+              description: Specifies whether this is a debit or credit transaction
+              example: debit
+        HealthResponse:
+          type: object
+          description: Response indicating the health status of the service and its
+            dependencies
+          example:
+            status: UP
+            account_service: UP
+            message: All services operational
+          properties:
+            status:
+              type: string
+              description: The health status of this service
+              example: UP
+            account_service:
+              type: string
+              description: The health status of the dependent account service
+              example: UP
+            message:
+              type: string
+              description: A human-readable message describing the overall health status
+              example: All services operational
+        ErrorResponse:
+          type: object
+          description: Standard error response structure for all error cases
+          example:
+            error_code: NOT_FOUND
+            message: Account Not Found Account does not exist
+          required:
+            - error_code
+            - message
+          properties:
+            error_code:
+              type: string
+              description: A standardized error code identifying the type of error
+              example: NOT_FOUND
+              enum:
+                - INTERNAL_ERROR
+                - NOT_FOUND
+                - BAD_REQUEST
+                - INSUFFICIENT_FUNDS
+            message:
+              type: string
+              description: A human-readable description of the error
+              example: Account Not Found Account does not exist
+  meta:
+    id: spc_fe5080d1c32041a8992145b0db29b5d5
+    created: 1745240709993
+    modified: 1745672432205

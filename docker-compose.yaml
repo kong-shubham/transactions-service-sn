@@ -1,0 +1,48 @@
+services:
+  transactions-api:
+    image: docker.io/kongcx/transactions-service:1.0.1
+    container_name: transactions
+    ports:
+      - "8082:8082"
+    environment:
+      - LOG_LEVEL=info
+      - ACCOUNTS_SERVICE_URL=http://account-service-mock:8080/bin/${MOCK_PATH_ID}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+  account-service-mock:
+    image: ghcr.io/kong/insomnia-mockbin:v2.0.2
+    container_name: account-service-mock
+    environment:
+      MOCKBIN_REDIS: "redis://redis:6379"
+      MOCKBIN_QUIET: "false"
+      MOCKBIN_PORT: "8080"
+      MOCKBIN_REDIS_EXPIRE_SECONDS: 1000000000
+    links:
+      - redis
+    ports:
+      - "8080:8080"
+
+  redis:
+    image: docker.io/library/redis:7.4.3
+
+  vault:
+    image: docker.io/hashicorp/vault:1.19.3
+    container_name: vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+      VAULT_ADDR: http://0.0.0.0:8200
+    volumes:
+      - ./vault-init.sh:/vault-init.sh
+    command: >
+      sh -c "vault server -dev -dev-root-token-id=root -dev-listen-address=0.0.0.0:8200 &
+             sleep 5 &&
+             sh /vault-init.sh &&
+             tail -f /dev/null"
