@@ -139,11 +139,17 @@ collection:
         meta:
           id: req_54d716322bd8402c8d706ad05827f179
           created: 1745657587063
-          modified: 1745657587063
+          modified: 1753090322944
           isPrivate: false
           description: Returns the health status without response body
           sortKey: -1745657587063
         method: HEAD
+        authentication:
+          type: apikey
+          disabled: false
+          key: X-BanKong-API-Key
+          value: "{{ api_key }}"
+          addTo: header
         scripts:
           preRequest: ""
           afterResponse: ""
