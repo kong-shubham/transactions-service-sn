@@ -139,11 +139,17 @@ collection:
         meta:
           id: req_54d716322bd8402c8d706ad05827f179
           created: 1745657587063
-          modified: 1745657587063
+          modified: 1753090322944
           isPrivate: false
           description: Returns the health status without response body
           sortKey: -1745657587063
         method: HEAD
+        authentication:
+          type: apikey
+          key: X-BanKong-API-Key
+          value: "{{ api_key }}"
+          disabled: false
+          addTo: header
         scripts:
           preRequest: ""
           afterResponse: ""
@@ -188,12 +194,16 @@ environments:
       meta:
         id: env_1d98192f26d647cf9d2b36e10900b25a
         created: 1745657587051
-        modified: 1745657587051
+        modified: 1753090122706
         isPrivate: false
         sortKey: 1745657587051
       data:
         scheme: http
         host: localhost:8082
+        api_key: "{% vault 'hashicorp', 'cloudCred_fd78234d3d55492aa260ecc52b6bfe02',
+          'eyJzZWNyZXROYW1lIjoidHJhbnNhY3Rpb25zLWFwaS9hcGkta2V5Iiwia3ZWZXJzaW9u\
+          IjoidjIiLCJzZWNyZXRFbmdpbmVQYXRoIjoic2VjcmV0Iiwic2VjcmV0S2V5IjoidmFsd\
+          WUifQ==' %}"
 spec:
   contents:
     openapi: 3.0.3
