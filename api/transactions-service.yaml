@@ -4,6 +4,7 @@ meta:
   id: wrk_21458055d86846fe8f9ffff5e75fa3a8
   created: 1745240709984
   modified: 1745240709984
+  description: ""
 collection:
   - name: transactions
     meta:
@@ -24,6 +25,9 @@ collection:
             account.
           sortKey: -1745657587065
         method: GET
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -54,6 +58,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -84,6 +91,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -92,6 +102,9 @@ collection:
             send: true
             store: true
           rebuildPath: true
+    scripts:
+      afterResponse: ""
+      preRequest: ""
   - name: health
     meta:
       id: fld_5201d24b54f64c9982a9540db8a5eb76
@@ -110,6 +123,9 @@ collection:
           description: Returns the health status of the service and its dependencies
           sortKey: -1745657587060
         method: GET
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -128,6 +144,9 @@ collection:
           description: Returns the health status without response body
           sortKey: -1745657587063
         method: HEAD
+        scripts:
+          preRequest: ""
+          afterResponse: ""
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -136,6 +155,9 @@ collection:
             send: true
             store: true
           rebuildPath: true
+    scripts:
+      afterResponse: ""
+      preRequest: ""
 cookieJar:
   name: Default Jar
   meta:
@@ -237,7 +259,7 @@ spec:
               description: Service is healthy
             "503":
               description: One or more dependent services are unhealthy
-      "/accounts/{accountId}/transactions":
+      /accounts/{accountId}/transactions:
         get:
           tags:
             - transactions
@@ -509,3 +531,20 @@ spec:
     id: spc_fe5080d1c32041a8992145b0db29b5d5
     created: 1745240709993
     modified: 1745672432205
+testSuites:
+  - name: New Suite
+    meta:
+      id: uts_e286a2a5401c4e5ab7f33fa53284abac
+      created: 1753088133872
+      modified: 1753088133872
+      sortKey: -1753088133872
+    tests:
+      - name: Returns 200
+        meta:
+          id: ut_5dd457f00ab94c868340ff5cb1234538
+          created: 1753088135413
+          modified: 1753088135413
+          sortKey: -1753088135413
+        code: |-
+          const response1 = await insomnia.send();
+          expect(response1.status).to.equal(200);
