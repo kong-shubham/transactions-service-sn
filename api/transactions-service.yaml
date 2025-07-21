@@ -146,9 +146,9 @@ collection:
         method: HEAD
         authentication:
           type: apikey
-          disabled: false
           key: X-BanKong-API-Key
           value: "{{ api_key }}"
+          disabled: false
           addTo: header
         scripts:
           preRequest: ""
